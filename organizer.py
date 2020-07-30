@@ -9,6 +9,19 @@ def folderGeneratorCommon():
             os.makedirs(folderDir)
             print('Created folder : ',folderDir)
         yield folder, extensionDict[folder]
+def folderGeneratorSpecial():
+    for x in [f for f in os.listdir() if os.path.isfile(os.path.join(path, f))]:
+        filename,extension = os.path.splitext(x)
+        extension = extension[1:]
+        extensionList.append(extension) if extension not in extensionList and extension != '' else False
+    for folder in extensionList:
+        folderDir = os.path.join(path,folder)
+        if not os.path.exists(folderDir):
+            os.makedirs(folderDir)
+            print('New folder created : ',folderDir)
+            yield folder,folderDir
+        else:
+            yield folder,folderDir
 def organizeCommonFiles():
     for folder,folderExtensions in folderGeneratorCommon():
         for file in glob.glob(os.path.join(path,'*.'+folderExtensions)):
